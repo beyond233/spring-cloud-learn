@@ -2,12 +2,18 @@ package com.beyond233.springcloud.controller;
 
 import com.beyond233.springcloud.entity.Payment;
 import com.beyond233.springcloud.entity.Result;
+import com.beyond233.springcloud.rocketmq.ProducerSource;
 import com.beyond233.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.integration.aggregator.MessageGroupExpiredEvent;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,6 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment")
 @Slf4j
+@EnableBinding(ProducerSource.class)
 public class PaymentController {
 
     /**
@@ -39,6 +46,10 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private ProducerSource producerSource;
+
 
     /**
      * 添加
@@ -62,6 +73,9 @@ public class PaymentController {
         Payment payment = paymentService.getPaymentById(id);
         log.info("查询payment 结果：" + payment);
         if (payment != null) {
+            Message<String> message = MessageBuilder.withPayload("生产者发送数据")
+                    .setHeader(RocketMQHeaders.TAGS, "8001").build();
+            producerSource.paymentProducer().send(message);
             return new Result<>(200, "查询payment成功，服务端口：" + serverPort, payment);
         } else {
             return new Result<>(444, "查询payment失败，服务端口：" + serverPort, null);

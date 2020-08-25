@@ -2,8 +2,12 @@ package com.beyond233.springcloud.controller;
 
 import com.beyond233.springcloud.entity.Payment;
 import com.beyond233.springcloud.entity.Result;
+import com.beyond233.springcloud.rocketmq.ConsumerSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/consumer")
 @Slf4j
+@EnableBinding(ConsumerSource.class)
 public class OrderController {
 
     /**
@@ -49,6 +54,11 @@ public class OrderController {
     @GetMapping("/payment/get/{id}")
     public Result<Payment> get(@PathVariable Long id){
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, Result.class);
+    }
+
+    @StreamListener(value = ConsumerSource.INPUT)
+    public void testListener(Message message){
+        System.err.println(message.getPayload().toString());
     }
 
 

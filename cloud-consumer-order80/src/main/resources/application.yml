@@ -1,6 +1,6 @@
 #服务器端口号
 server:
-  port: 80
+  port: 8000
 
 spring:
   #mysql配置
@@ -19,18 +19,16 @@ spring:
       default-binder: rocketmq
       rocketmq:
         binder:
-          name-server: xxx.xxx.xxx.xxx
+          name-server: 192.168.0.113:9876;192.168.0.115:9876
         bindings:
           order80-consumer:
             consumer:
-              tags: 8001
+              tags: 8001 || 8002
       bindings:
         order80-consumer:
           destination: payment-topic
           group: order-consumer-group
           content-type: application/json
-          consumer:
-            concurrency: 20
 
 #eureka配置
 eureka:

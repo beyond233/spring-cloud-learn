@@ -26,7 +26,7 @@ eureka:
       #要注册的Eureka服务端的地址
       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
   instance:
-    #给服务状态status起一个简洁的名
+    #给服务状态status起一个简洁的名.
     instance-id: payment8002
     #开启后服务的访问路径可以显示IP地址
     prefer-ip-address: true
