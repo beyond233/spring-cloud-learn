@@ -1,8 +1,9 @@
+#服务器端口号
 server:
   port: 80
 
-
 spring:
+  #mysql配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: org.gjt.mm.mysql.Driver
@@ -12,7 +13,26 @@ spring:
   #服务名称
   application:
     name: cloud-order-service
+  cloud:
+    #rocketmq配置
+    stream:
+      default-binder: rocketmq
+      rocketmq:
+        binder:
+          name-server: xxx.xxx.xxx.xxx
+        bindings:
+          order80-consumer:
+            consumer:
+              tags: 8001
+      bindings:
+        order80-consumer:
+          destination: payment-topic
+          group: order-consumer-group
+          content-type: application/json
+          consumer:
+            concurrency: 20
 
+#eureka配置
 eureka:
   client:
     #讲自己注册进Eureka服务端

@@ -1,7 +1,7 @@
 package com.beyond233.springcloud.controller;
 
-import com.beyond233.springcloud.entity.Result;
 import com.beyond233.springcloud.entity.Payment;
+import com.beyond233.springcloud.entity.Result;
 import com.beyond233.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,9 @@ import java.util.List;
 @Slf4j
 public class PaymentController {
 
-    /**服务端口*/
+    /**
+     * 服务端口
+     */
     @Value("${server.port}")
     private String serverPort;
 
@@ -38,30 +40,39 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    /**
+     * 添加
+     */
     @PostMapping("/add")
-    public Result<Integer> add(@RequestBody Payment payment){
+    public Result<Integer> add(@RequestBody Payment payment) {
         int result = paymentService.add(payment);
-        log.info("添加payment 结果："+result);
-        if (result>0) {
-            return new Result<>(200, "添加payment成功，服务端口："+serverPort, result);
-        }else{
-            return new Result<>(444, "添加payment成功，服务端口："+serverPort, null);
+        log.info("添加payment 结果：" + result);
+        if (result > 0) {
+            return new Result<>(200, "添加payment成功，服务端口：" + serverPort, result);
+        } else {
+            return new Result<>(444, "添加payment成功，服务端口：" + serverPort, null);
         }
     }
 
+    /**
+     * 查询
+     */
     @GetMapping("/get/{id}")
-    public Result<Payment> get(@PathVariable Long id){
+    public Result<Payment> get(@PathVariable Long id) {
         Payment payment = paymentService.getPaymentById(id);
-        log.info("查询payment 结果："+payment);
-        if (payment!=null) {
-            return new Result<>(200, "查询payment成功，服务端口："+serverPort, payment);
-        }else{
-            return new Result<>(444, "查询payment失败，服务端口："+serverPort, null);
+        log.info("查询payment 结果：" + payment);
+        if (payment != null) {
+            return new Result<>(200, "查询payment成功，服务端口：" + serverPort, payment);
+        } else {
+            return new Result<>(444, "查询payment失败，服务端口：" + serverPort, null);
         }
     }
 
+    /**
+     * 发现服务
+     */
     @GetMapping("/discovery")
-    public Object discovery(){
+    public Object discovery() {
         //获取该服务端口下的所有服务信息
         List<String> services = discoveryClient.getServices();
         for (String service : services) {

@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.cloud.stream.messaging.Source;
 
 /**
  * <p>项目文档: 主启动类</p>
@@ -17,9 +20,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 //EnableDiscoveryClient注解表明可以通过discoveryClient获取相应的服务信息
 @EnableDiscoveryClient
+@EnableBinding({Source.class, Sink.class})
 @SpringBootApplication
 public class Payment8001Application {
     public static void main(String[] args) {
-        SpringApplication.run(Payment8001Application.class,args);
+        SpringApplication.run(Payment8001Application.class, args);
     }
 }
