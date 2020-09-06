@@ -18,11 +18,19 @@ import lombok.ToString;
 @ToString
 public class Result<T> {
 
-    /**状态码*/
+    /**
+     * 状态码
+     */
     private Integer code;
-    /**结果消息*/
+
+    /**
+     * 结果消息
+     */
     private String message;
-    /**数据*/
+
+    /**
+     * 数据
+     */
     private T data;
 
     public Result(Integer code, String message) {

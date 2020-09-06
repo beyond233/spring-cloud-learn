@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * <p>项目文档: </p>
  *
@@ -26,6 +28,27 @@ public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
+
+    /**
+     * 返回当前项目的服务端口
+     * */
+    @GetMapping("/lb")
+    public String getLoadBalancePort(){
+        return serverPort;
+    }
+
+    /**
+     * 模拟处理时间较长的业务
+     * */
+    @GetMapping("/feign/timeout")
+    public String timeout(){
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
+    }
 
     @PostMapping("/add")
     public Result<Integer> add(@RequestBody Payment payment){

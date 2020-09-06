@@ -2,15 +2,21 @@ package com.beyond233.springcloud.controller;
 
 import com.beyond233.springcloud.entity.Payment;
 import com.beyond233.springcloud.entity.Result;
+import com.beyond233.springcloud.loadbalance.MyLoadBalancer;
 import com.beyond233.springcloud.rocketmq.ConsumerSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.List;
 
 /**
  * <p>项目文档: </p>
@@ -40,8 +46,14 @@ public class OrderController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private MyLoadBalancer myLoadBalancer;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     /**
-     * 调用8001添加payment的服务接口
+     * 远程调用添加payment的服务接口
      * */
     @GetMapping("/payment/add")
     public Result<Payment> add(Payment payment){
@@ -49,17 +61,52 @@ public class OrderController {
     }
 
     /**
-     * 调用8001通过id获取payment的服务接口
+     * 远程调用通过id获取payment的服务接口
      * */
     @GetMapping("/payment/get/{id}")
     public Result<Payment> get(@PathVariable Long id){
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, Result.class);
     }
 
+    /**
+     * 通过id获取响应实体
+     * */
+    @GetMapping("/payment/getForEntity/{id}")
+    public Result<Payment> getEntity(@PathVariable("id") Integer id){
+        ResponseEntity<Result> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment/get/" + id, Result.class);
+        if (entity.getStatusCode().is2xxSuccessful()) {
+            return entity.getBody();
+        }else{
+            return new Result<Payment>(444, "操作失败");
+        }
+
+    }
+
+
+    /**
+     * 接收MQ消息
+     * */
     @StreamListener(value = ConsumerSource.INPUT)
     public void testListener(Message message){
         System.err.println(message.getPayload().toString());
     }
 
+    /**
+     * 根据复杂均衡算法获得某一个服务的端口
+     * */
+    @GetMapping("/payment/lb")
+    public String getLoadBalance(){
+        //根据服务名获取其所属的全部服务
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        if (instances == null || instances.size() <= 0) {
+            return null;
+        }
+        //通过负载均衡算法从全部服务中选择一个可用的服务
+        ServiceInstance serviceInstance = myLoadBalancer.instances(instances);
+        URI uri = serviceInstance.getUri();
+
+        //远程访问获取对应服务的端口的接口
+        return restTemplate.getForObject(uri + "/payment/lb", String.class);
+    }
 
 }

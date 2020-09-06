@@ -21,7 +21,7 @@ public class ApplicationContextConfig {
      * 使用LoadBalanced注解赋予RestTemplate负载均衡的能力，即可以通过服务的公共实例名称来访问其对应的具体的服务
      * 即通过CLOUD-PAYMENT-SERVICE可以访问其对应的8001和8002服务端口
      * */
-    @LoadBalanced
+//    @LoadBalanced
     @Bean
     public RestTemplate getRestTemplate(){
         return new RestTemplate();
