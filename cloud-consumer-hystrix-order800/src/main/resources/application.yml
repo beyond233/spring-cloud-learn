@@ -1,0 +1,44 @@
+#服务器
+server:
+  port: 8000
+
+#eureka配置
+eureka:
+  client:
+    #讲自己注册进Eureka服务端
+    register-with-eureka: false
+    #是否从Eureka服务端抓取已有的注册信息，默认为true。单节点无所谓，但集群必须设置为true才能配合ribbon使用负载均衡
+    fetch-registry: true
+    service-url:
+      #要注册的Eureka服务端的地址
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+
+
+#ribbon客户端配置
+ribbon:
+  #设置从服务器读取到可用资源时的超时时间为5秒
+  ReadTimeout: 5000
+  #设置建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+  ConnectTimeout: 5000
+
+#spring配置
+spring:
+  #mysql
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+
+#日志配置
+logging:
+  level:
+    #Feign日志：以什么级别监控某一个具体的Feign接口
+    com.beyond233.springcloud.service.FeignPaymentService: debug
+
+#开启Feign对Hystrix服务熔断的支持
+feign:
+  hystrix:
+    enabled: true
