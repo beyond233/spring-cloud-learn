@@ -40,9 +40,9 @@ eureka:
     fetch-registry: true
     service-url:
       #单机版
-#      defaultZnne: http://eureka7001.com:7001/eureka/
+      defaultZnne: http://eureka7001.com:7001/eureka/
       #集群版： 要注册的所有的Eureka服务端的地址
-        defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+#        defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
   instance:
     #给服务状态status起一个简洁的名
     instance-id: payment8001

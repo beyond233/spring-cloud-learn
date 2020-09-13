@@ -23,8 +23,10 @@ eureka:
     #是否从Eureka服务端抓取已有的注册信息，默认为true。单节点无所谓，但集群必须设置为true才能配合ribbon使用负载均衡
     fetch-registry: true
     service-url:
-      #要注册的Eureka服务端的地址
-      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+      #单机版
+      defaultZnne: http://eureka7001.com:7001/eureka/
+      #集群版：要注册的Eureka服务端的地址
+#      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
   instance:
     #给服务状态status起一个简洁的名.
     instance-id: payment8002

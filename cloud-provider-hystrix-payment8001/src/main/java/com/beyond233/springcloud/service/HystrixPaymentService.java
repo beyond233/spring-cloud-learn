@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Service
 public class HystrixPaymentService {
 
+    /**
+     * 服务熔断方法
+     * */
     @HystrixCommand(fallbackMethod = "circuitHandler",commandProperties = {
             @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),//开启断路器
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),//最大错误请求次数

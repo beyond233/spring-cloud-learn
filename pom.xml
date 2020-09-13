@@ -18,9 +18,10 @@
     <module>cloud-eureka-server7002</module>
     <module>cloud-provider-payment8001</module>
     <module>cloud-provider-payment8002</module>
-      <module>cloud-consumer-feigon-order80</module>
+      <module>cloud-consumer-feign-order80</module>
       <module>cloud-consumer-hystrix-order80</module>
-      <module>cloud-consumer-hystrix-order800</module>
+      <module>cloud-consumer-hystrix-dashboard9001</module>
+      <module>cloud-gateway9527</module>
   </modules>
 
 
