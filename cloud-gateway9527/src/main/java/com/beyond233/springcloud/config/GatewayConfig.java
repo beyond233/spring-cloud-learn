@@ -5,6 +5,8 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.ZonedDateTime;
+
 /**
  * <p>项目文档: </p>
  *
@@ -26,5 +28,12 @@ public class GatewayConfig {
                 r -> r.path("/guonei").uri("http://news.baidu.com/guonei")).build();
         return routes.build();
 
+    }
+
+    /**
+     * 打印输出当前时区的时间
+     * */
+    public static void main(String[] args) {
+        System.out.println(ZonedDateTime.now());
     }
 }
