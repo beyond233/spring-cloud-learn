@@ -20,14 +20,13 @@ public class MyLoadBalancerImpl implements MyLoadBalancer {
 
     /**
      * 使用原子integer记录rest请求的总次数
-     * */
+     */
     private AtomicInteger atomicInteger = new AtomicInteger(0);
-
 
 
     /**
      * 返回最新的rest请求的总次数
-     * */
+     */
     public final int getAndIncrement() {
         //当前总的请求次数
         int current;
