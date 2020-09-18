@@ -1,0 +1,8 @@
+#Spring
+spring:
+  application:
+    name: cloud-config-service
+  cloud:
+    config:
+      server:
+        accept-empty:

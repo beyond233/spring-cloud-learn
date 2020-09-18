@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.integration.aggregator.MessageGroupExpiredEvent;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,17 +56,17 @@ public class PaymentController {
     /**
      * 返回当前项目的服务端口
      * 用于构建自己手写实现的负载均衡算法
-     * */
+     */
     @GetMapping("/lb")
-    public String getLoadBalancePort(){
+    public String getLoadBalancePort() {
         return serverPort;
     }
 
     /**
      * 模拟处理时间较长的业务
-     * */
+     */
     @GetMapping("/feign/timeout")
-    public String timeout(){
+    public String timeout() {
         try {
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
@@ -124,4 +125,35 @@ public class PaymentController {
     }
 
 
+    public static void main(String[] args) {
+//        System.out.println(Arrays.toString(new Solution().twoSum(new int[]{2, 7, 11}, 9)));
+
+        System.out.println(reverseNumber(-120));
+
+    }
+
+    static class Solution {
+        public int[] twoSum(int[] nums, int target) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < nums.length; i++) {
+                map.put(nums[i], i);
+            }
+            for (int i = 0; i < nums.length; i++) {
+                int c = target - nums[i];
+                if (map.containsKey(c) && map.get(c) != i) {
+                    return new int[]{i, map.get(c)};
+                }
+            }
+            return null;
+        }
+    }
+
+    public static Integer reverseNumber(int i) {
+        if (i > 0) {
+            return Integer.parseInt(new StringBuffer(i).reverse().toString());
+        } else {
+            return -Integer.parseInt(new StringBuffer(-i).reverse().toString());
+
+        }
+    }
 }
