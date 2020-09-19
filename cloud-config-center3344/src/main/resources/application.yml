@@ -1,0 +1,37 @@
+#Tomcat
+server:
+  port: 3344
+
+#Spring
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/beyond233/spring-cloud-config.git
+          search-paths:        #搜索目录
+            - spring-cloud-config
+      label: master  #读取哪个分支
+  #rabbitmq实现消息总线Bus自动批量刷新配置，访问http://ip:15672可查看rabbitmq的图形监控
+  rabbitmq:
+    host: 192.168.1.6
+    port: 5672
+    username: guest
+    password: guest
+
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+
+
+#actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh"   #暴露消息总线bus刷新配置的端点

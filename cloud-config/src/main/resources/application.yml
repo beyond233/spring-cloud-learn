@@ -1,8 +1,0 @@
-#Tomcat
-server:
-  port: 3301
-
-#Spring
-spring:
-  profiles:
-    active: dev

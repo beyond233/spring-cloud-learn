@@ -1,0 +1,33 @@
+#Tomcat
+server:
+  port: 3366
+
+#Spring
+spring:
+  application:
+    name: cloud-config-client-3366
+  cloud:
+    config:
+      label: master  #github分支
+      name: config   #配置文件前缀
+      profile: dev
+      uri: http://localhost:3344
+  #rabbitmq实现消息总线Bus自动批量刷新配置，访问http://ip:15672可查看rabbitmq的图形监控
+  rabbitmq:
+    host: 192.168.1.6
+    port: 5672
+    username: guest
+    password: guest
+
+#eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+#actuator监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露端点，例如refresh,health
