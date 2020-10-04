@@ -13,14 +13,14 @@ eureka:
     service-url:
       #defaultZone：要注册的eureka服务端地址
       #下面为单机版：注册中心地址为自己的
-#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
       #下面为集群版：集群之间需要相互注册
-      defaultZone: http://eureka7002.com:7002/eureka/
+  #      defaultZone: http://eureka7002.com:7002/eureka/
   server:
     #关闭自我保护机制，及时剔除不可用服务
-#    enable-self-preservation: false
-    #时间间隔
-#    eviction-interval-timer-in-ms: 2000
+    enable-self-preservation: false
+    # 时间间隔
+    eviction-interval-timer-in-ms: 2000
 
 
 spring:
@@ -29,4 +29,4 @@ spring:
     driver-class-name: org.gjt.mm.mysql.Driver
     url: jdbc:mysql://localhost:3306/cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    : 123456

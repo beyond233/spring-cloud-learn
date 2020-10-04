@@ -1,0 +1,38 @@
+#Tomcat
+server:
+  port: 8802
+
+#Spring
+spring:
+  application:
+    name: cloud-stream-consumer
+  cloud:
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 192.168.1.6
+                port: 5672
+                username: admin  #guest用户只能连接本机ip，即localhost。所以此处应该新建一个admin用户
+                password: admin
+      bindings:
+        - input:  #一个消息管道的名称
+            destination: studyExchange  #消息主题
+            content-type: application/json   #消息类型，文本可设置为"text/plain"
+            binder: defaultRabbit
+
+
+
+#eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 2 #设置心跳时间间隔
+    lease-expiration-duration-in-seconds: 5 #默认90秒，现在是超过5秒间隔
+    instance-id: consumer-8802.com #在信息列表里显示主机名称
+    prefer-ip-address: true  #访问的路径变为IP地址

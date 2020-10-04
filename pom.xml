@@ -24,6 +24,8 @@
       <module>cloud-gateway9527</module>
       <module>cloud-config-client-3355</module>
       <module>cloud-config-client-3366</module>
+    <module>cloud-stream-rabbit-provider8801</module>
+    <module>cloud-stream-rabbit-consumer-8802</module>
   </modules>
 
 
