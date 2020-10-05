@@ -54,6 +54,14 @@ public class PaymentController {
 
 
     /**
+     * 链路追踪
+     * */
+    @GetMapping("/zipkin")
+    public String paymentZipkin(){
+        return "payment8001-zipkin-server: 链路追踪";
+    }
+
+    /**
      * 返回当前项目的服务端口
      * 用于构建自己手写实现的负载均衡算法
      */

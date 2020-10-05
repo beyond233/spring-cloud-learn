@@ -3,6 +3,15 @@ server:
   port: 8000
 
 spring:
+  #服务名称
+  application:
+    name: cloud-order-service
+  #链路追踪
+  zipkin:
+    base-url: http://192.168.1.6:9411
+  sleuth:
+    sampler:
+      probability: 1  #采样率值介于0和1之间，则表示全部采集
   #mysql配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -10,25 +19,22 @@ spring:
     url: jdbc:mysql://localhost:3306/cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: root
-  #服务名称
-  application:
-    name: cloud-order-service
-  cloud:
-    #rocketmq配置
-    stream:
-      default-binder: rocketmq
-      rocketmq:
-        binder:
-          name-server: 192.168.0.113:9876;192.168.0.115:9876
-        bindings:
-          order80-consumer:
-            consumer:
-              tags: 8001 || 8002
-      bindings:
-        order80-consumer:
-          destination: payment-topic
-          group: order-consumer-group
-          content-type: application/json
+#  cloud:
+#    #rocketmq配置
+#    stream:
+#      default-binder: rocketmq
+#      rocketmq:
+#        binder:
+#          name-server: 192.168.0.113:9876;192.168.0.115:9876
+#        bindings:
+#          input:
+#            consumer:
+#              tags: 8001 || 8002
+#      bindings:
+#        input:
+#          destination: payment-topic
+#          group: order-consumer-group
+#          content-type: application/json
 
 #eureka配置
 eureka:
@@ -39,5 +45,7 @@ eureka:
     fetch-registry: true
     service-url:
       #要注册的Eureka服务端的地址
-      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
-
+#      defaultZone: http://localhost.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: consumer8000

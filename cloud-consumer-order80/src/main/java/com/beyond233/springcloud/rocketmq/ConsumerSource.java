@@ -1,10 +1,6 @@
 package com.beyond233.springcloud.rocketmq;
 
-import org.springframework.cloud.stream.annotation.Input;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.SubscribableChannel;
-import org.springframework.stereotype.Component;
 
 /**
  * todo
@@ -14,13 +10,13 @@ import org.springframework.stereotype.Component;
  */
 public interface ConsumerSource {
 
-    String INPUT = "order80-consumer";
+    String INPUT = "input";
 
     /**
      *  消费者Source
      * @return org.springframework.messaging.SubscribableChannel
      */
-    @Input(INPUT)
+//    @Input(INPUT)
     SubscribableChannel orderConsumer();
 
 

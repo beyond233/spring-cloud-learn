@@ -3,16 +3,15 @@ package com.beyond233.springcloud.controller;
 import com.beyond233.springcloud.entity.Payment;
 import com.beyond233.springcloud.entity.Result;
 import com.beyond233.springcloud.loadbalance.MyLoadBalancer;
-import com.beyond233.springcloud.rocketmq.ConsumerSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.Message;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -28,20 +27,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/consumer")
 @Slf4j
-@EnableBinding(ConsumerSource.class)
+//@EnableBinding(ConsumerSource.class)
 public class OrderController {
 
     /**
      * 单机版：
      * 8001payment服务的接口
      * */
-//    public static final String PAYMENT_URL = "http://localhost:8001";
+    public static final String PAYMENT_URL = "http://localhost:8002";
     /**
      * 集群版：
      * 集群下的访问路径应写服务的公共实例名称，即在yml文件配置的spring.application.name
      * 用户不应像上面单机版那样关注服务具体的url和端口号，而是只关注与对应服务的公共实例名称。
      * */
-    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
+//    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -51,6 +50,14 @@ public class OrderController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    /**
+     * 链路追踪
+     * */
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin(){
+        return restTemplate.getForObject(PAYMENT_URL + "/payment/zipkin", String.class);
+    }
 
     /**
      * 远程调用添加payment的服务接口
@@ -86,10 +93,10 @@ public class OrderController {
     /**
      * 接收MQ消息
      * */
-    @StreamListener(value = ConsumerSource.INPUT)
-    public void testListener(Message message){
-        System.err.println(message.getPayload().toString());
-    }
+//    @StreamListener(value = ConsumerSource.INPUT)
+//    public void testListener(Message message){
+//        System.err.println(message.getPayload().toString());
+//    }
 
     /**
      * 根据复杂均衡算法获得某一个服务的端口

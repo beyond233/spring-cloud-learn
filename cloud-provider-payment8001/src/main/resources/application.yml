@@ -4,7 +4,12 @@ server:
 spring:
   application:
     name: cloud-payment-service
-
+  #链路追踪
+  zipkin:
+    base-url: http://192.168.1.6:9411
+  sleuth:
+    sampler:
+      probability: 1  #采样率值介于0和1之间，则表示全部采集
   #mysql配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -23,6 +28,11 @@ spring:
         provider-payment8001-producer:
           destination: payment-topic
           content-type: application/json
+          group: provider-group
+        input:
+          destination: payment-topic
+          content-type: application/json
+          group: provider-group
 
 
 #mybatis配置
@@ -31,24 +41,14 @@ mybatis:
   type-aliases-package: com.beyond233.springcloud.entity
 
 
-#eureka配置
+#eureka
 eureka:
   client:
-    #讲自己注册进Eureka服务端
-    register-with-eureka: true
-    #是否从Eureka服务端抓取已有的注册信息，默认为true。单节点无所谓，但集群必须设置为true才能配合ribbon使用负载均衡
-    fetch-registry: true
     service-url:
-      #单机版
-#      defaultZnne: http://eureka7001.com:7001/eureka/
-      #集群版： 要注册的所有的Eureka服务端的地址
-        defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+      defaultZone: http://localhost:7001/eureka
   instance:
-    #给服务状态status起一个简洁的名
+    #给服务状态status起一个简洁的名.
     instance-id: payment8001
-    #开启后访问路径可以显示IP地址
-    prefer-ip-address: true
-    #Eureka客户端向服务端发送心跳的时间间隔，单位为秒，默认为30秒
-    #    lease-renewal-interval-in-seconds: 1
-    #Eureka服务端在收到最后一次心跳后等待时间上限，单位为秒，默认为90秒，超时则将剔除未及时发送心跳的服务
-#    lease-expiration-duration-in-seconds: 2
+    lease-renewal-interval-in-seconds: 2 #设置心跳时间间隔
+    lease-expiration-duration-in-seconds: 5 #默认90秒，现在是超过5秒间隔
+    prefer-ip-address: true  #访问的路径变为IP地址
