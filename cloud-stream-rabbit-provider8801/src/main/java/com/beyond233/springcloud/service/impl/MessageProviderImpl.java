@@ -10,8 +10,6 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
-import javax.annotation.Resource;
-
 /**
  * 消息生产者实现
  *
@@ -30,7 +28,7 @@ public class MessageProviderImpl implements IMessageProvider {
     private MessageChannel output;
 
     @Value("${server.port}")
-    private static final String SERVER_PORT = null;
+    private static String SERVER_PORT;
 
     /**
      * 生产者发送消息方法的具体实现

@@ -1,6 +1,6 @@
 #Tomcat
 server:
-  port: 8802
+  port: 8803
 
 #Spring
 spring:
@@ -23,7 +23,7 @@ spring:
           destination: studyExchange  #消息主题
           content-type: application/json   #消息类型，文本可设置为"text/plain"
           binder: defaultRabbit
-#          group: consumer-group
+          group: consumer-group
 
 
 
@@ -35,5 +35,5 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 2 #设置心跳时间间隔
     lease-expiration-duration-in-seconds: 5 #默认90秒，现在是超过5秒间隔
-    instance-id: consumer-8802.com #在信息列表里显示主机名称
+    instance-id: consumer-8803.com #在信息列表里显示主机名称
     prefer-ip-address: true  #访问的路径变为IP地址
