@@ -36,4 +36,28 @@ public class Result<T> {
     public Result(Integer code, String message) {
         this(code, message,null);
     }
+
+    public static <T>Result<T> success(T data){
+        return new Result<>(200, "success",data);
+    }
+
+    public static <T>Result<T> success(){
+        return new Result<>(200, "success",null);
+    }
+
+    public static <T>Result<T> fail(T data){
+        return new Result<>(200, "fail",data);
+    }
+
+    public static <T>Result<T> fail(){
+        return new Result<>(200, "fail",null);
+    }
+
+    public static <T>Result<T> error(T data){
+        return new Result<>(500, "internal error",data);
+    }
+
+    public static <T>Result<T> error(){
+        return new Result<>(500, "internal error",null);
+    }
 }

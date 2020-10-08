@@ -28,14 +28,14 @@ public class MessageProviderImpl implements IMessageProvider {
     private MessageChannel output;
 
     @Value("${server.port}")
-    private static String SERVER_PORT;
+    private String serverPort;
 
     /**
      * 生产者发送消息方法的具体实现
      * */
     @Override
     public String send() {
-        String msg = "哈哈哈，生产者发送消息--" + SERVER_PORT;
+        String msg = "哈哈哈，生产者发送消息--" + serverPort;
         String s = JSON.toJSONString(msg);
         output.send(MessageBuilder.withPayload(s).build());
         log.info("发送了一条消息： " + msg);

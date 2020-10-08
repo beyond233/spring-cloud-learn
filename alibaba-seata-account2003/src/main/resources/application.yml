@@ -1,0 +1,34 @@
+#tomcat
+server:
+  port: 2003
+
+spring:
+  application:
+    name: alibaba-seata-account
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 193ac25a-a007-4113-9bee-2d852363444c  #dev命名空间
+    alibaba:
+      seata:
+        tx-service-group: mytx_group  #自定义事务组名称，要与seata-server的配置对应
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_account?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+#  #jpa配置
+#  jpa:
+#    hibernate:
+#      ddl-auto: update  #自动更新或初始化创建数据库表
+#    show-sql: true    #控制台输出sql日志
+
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.beyond233.alibaba.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

@@ -1,0 +1,11 @@
+#tomcat
+server:
+  port: 83
+spring:
+  application:
+    name: alibaba-order-service
+  cloud:
+    nacos:  #nacos默认支持轮询负载
+      discovery:
+        server-addr: localhost:8848
+

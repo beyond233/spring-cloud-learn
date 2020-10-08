@@ -27,6 +27,13 @@
     <module>cloud-stream-rabbit-provider8801</module>
     <module>cloud-stream-rabbit-consumer-8802</module>
       <module>cloud-steam-rabbit-consumer-8803</module>
+      <module>cloudalibaba-provider-payment9001</module>
+      <module>alibaba-provider-payment9002</module>
+      <module>alibaba-consumer-order83</module>
+      <module>alibaba-config-client3377</module>
+      <module>cloud_seata_order2001</module>
+      <module>alibaba-seata-account</module>
+      <module>alibaba-seata-storage2002</module>
   </modules>
 
 

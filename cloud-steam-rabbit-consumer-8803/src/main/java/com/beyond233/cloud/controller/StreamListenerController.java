@@ -23,10 +23,10 @@ public class StreamListenerController {
      * server port
      */
     @Value("${server.port}")
-    private static String SERVER_PORT;
+    private String serverPort;
 
     @StreamListener(Sink.INPUT)
     public void consume(Message<String> msg){
-        log.info(SERVER_PORT + " 消费消息: " + msg.getPayload());
+        log.info(serverPort + " 消费消息: " + msg.getPayload());
     }
 }
