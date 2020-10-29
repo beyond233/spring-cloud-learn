@@ -1,0 +1,31 @@
+#tomcat
+server:
+  port: 8401
+
+#spring
+spring:
+  application:
+    name: alibaba-sentinel-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: 193ac25a-a007-4113-9bee-2d852363444c  #dev命名空间
+    sentinel:
+      transport:
+        #dashboard地址
+        dashboard: localhost:8080
+        #默认8719端口，若被占用将自动从8719开始依次+1扫描，直至找到未被占用的端口
+        port: 8719
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+#监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
